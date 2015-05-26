@@ -28,11 +28,9 @@ namespace PowerPointGeneration.Tests
 
 		private static void DownloadAllFiles()
 		{
-			int counter = 0;
 			foreach (var sparrow in SparrowData.Get())
 			{
-				counter++;
-				string localFilename = @"c:\temp\birds\sparrow{0}.jpg".FormatWith(counter);
+				string localFilename = GetFileName(sparrow);
 				if (!File.Exists(localFilename))
 				{
 					using (WebClient client = new WebClient())
@@ -41,6 +39,25 @@ namespace PowerPointGeneration.Tests
 					}
 				}
 			}
+		}
+
+		private static Tuple<string, string, int>[] GetTrainingSet()
+		{
+			var all = SparrowData.Get();
+			var house = all.Where(s => s.Item1.StartsWith("House")).ToArray();
+			Logger.Variable("House.length", house.Count()); // 63
+			var chipping = all.Where(s => s.Item1.StartsWith("Chipping")).ToArray();
+			Logger.Variable("Chipping", chipping.Count()); //37
+			var song = all.Where(s => s.Item1.StartsWith("Song")).ToArray();
+			Logger.Variable("Song", song.Length); // 56
+			Random rnd = new Random();
+			int amount = 37;
+			return house.Take(amount).Concat(chipping.Take(amount)).Concat(song.Take(amount)).OrderBy(x => rnd.Next()).ToArray();
+		}
+
+		private static string GetFileName(Tuple<string, string, int> sparrow)
+		{
+			return @"c:\temp\birds\sparrow{0}.jpg".FormatWith(sparrow.Item3);
 		}
 
 		private static void AddSparrows(Presentation pptPresentation)
@@ -55,11 +72,11 @@ namespace PowerPointGeneration.Tests
 				Slides slides = pptPresentation.Slides;
 				int counter = 0;
 				int page = 1;
-				foreach (var sparrow in SparrowData.Get())
+				foreach (var sparrow in GetTrainingSet())
 				{
 					counter++;
 					// Question
-					totalTime = AddPicturePage(slides, page, customLayout, counter, totalTime);
+					totalTime = AddPicturePage(slides, page, customLayout, sparrow,counter, totalTime);
 					page++;
 					// Answer
 					totalTime = AddAnswerPage(slides, page, textLayout, sparrow, counter, totalTime);
@@ -69,12 +86,11 @@ namespace PowerPointGeneration.Tests
 			}
 		}
 
-		private static float AddPicturePage(Slides slides, int page, CustomLayout customLayout, int counter, float totalTime)
+		private static float AddPicturePage(Slides slides, int page, CustomLayout customLayout, Tuple<string, string, int> sparrow, int counter, float totalTime)
 		{
 			var slide = slides.AddSlide(page, customLayout);
 			Shape shape = slide.Shapes[2];
-			string localFilename = @"c:\temp\birds\sparrow{0}.jpg".FormatWith(counter);
-			slide.Shapes.AddPicture(localFilename, MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
+			slide.Shapes.AddPicture(GetFileName(sparrow), MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
 				shape.Width, shape.Height);
 			float time = GetTimingsForImage(counter);
 			totalTime += time;
@@ -83,18 +99,18 @@ namespace PowerPointGeneration.Tests
 			return totalTime;
 		}
 
-		private static float AddAnswerPage(Slides slides, int page, CustomLayout textLayout, Tuple<string, string> sparrow, int counter,
+		private static float AddAnswerPage(Slides slides, int page, CustomLayout textLayout, Tuple<string, string, int> sparrow, int counter,
 			float totalTime)
 		{
 			Slide slide;
 			float time;
 			slide = slides.AddSlide(page, textLayout);
 			var title = slide.Shapes[1].TextFrame.TextRange;
-			title.Text = sparrow.Item1.Split('\n').First();
+			title.Text = sparrow.Item1.Split(' ').First();
 			title.Font.Name = "Arial";
 			title.Font.Size = 80;
 			var subtitle = slide.Shapes[2].TextFrame.TextRange;
-			subtitle.Text = sparrow.Item1.Split('\n').Last();
+			subtitle.Text = sparrow.Item1.Split(' ').Last();
 			subtitle.Font.Name = "Arial";
 			subtitle.Font.Size = 30;
 			time = GetTimingsForAnswer(counter);
