@@ -9,10 +9,16 @@ namespace PowerPointGeneration.Tests
 	public class GeneratePowerpoint
 	{
 		[TestMethod]
-		public void CreateSlides()
+		public void CreateSlidesForSparrows()
 		{
 			Logger.Writer = new ConsoleWriter();
-			Sparrows.Create();
+			SparrowTraining.Create();
+		}
+		[TestMethod]
+		public void CreateSlidesForSet()
+		{
+			Logger.Writer = new ConsoleWriter();
+			SetTraining.Create();
 		}
 	}
 }

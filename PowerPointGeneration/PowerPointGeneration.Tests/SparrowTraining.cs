@@ -1,6 +1,8 @@
 ﻿//using System.Data;
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,7 +14,7 @@ using Shape = Microsoft.Office.Interop.PowerPoint.Shape;
 
 namespace PowerPointGeneration.Tests
 {
-	public class Sparrows
+	public class SparrowTraining
 	{
 		public static void Create()
 		{
@@ -50,9 +52,9 @@ namespace PowerPointGeneration.Tests
 			Logger.Variable("Chipping", chipping.Count()); //37
 			var song = all.Where(s => s.Item1.StartsWith("Song")).ToArray();
 			Logger.Variable("Song", song.Length); // 56
-			Random rnd = new Random();
+			
 			int amount = 37;
-			return house.Take(amount).Concat(chipping.Take(amount)).Concat(song.Take(amount)).OrderBy(x => rnd.Next()).ToArray();
+			return house.Take(amount).Concat(chipping.Take(amount)).Concat(song.Take(amount)).Shuffle();
 		}
 
 		private static string GetFileName(Tuple<string, string, int> sparrow)
@@ -120,7 +122,7 @@ namespace PowerPointGeneration.Tests
 			return totalTime;
 		}
 
-		private static float GetTimingsForImage(int counter)
+		public static float GetTimingsForImage(int counter)
 		{
 			if (counter < 5)
 			{
@@ -141,7 +143,7 @@ namespace PowerPointGeneration.Tests
 			return 1f;
 		}
 
-		private static float GetTimingsForAnswer(int counter)
+		public static float GetTimingsForAnswer(int counter)
 		{
 			if (counter < 5)
 			{
@@ -160,6 +162,15 @@ namespace PowerPointGeneration.Tests
 				return 0.5f;
 			}
 			return 0.5f;
+		}
+	}
+
+	public static class ArrayUtils
+	{
+		public static T[] Shuffle<T>(this IEnumerable<T> array)
+		{
+			Random rnd = new Random();
+			return array.OrderBy(x => rnd.Next()).ToArray();
 		}
 	}
 }
