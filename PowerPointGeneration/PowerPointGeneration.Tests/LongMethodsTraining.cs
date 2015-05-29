@@ -94,8 +94,8 @@ namespace PowerPointGeneration.Tests
 			title.Text = code.Item2;
 			title.Font.Name = "Arial";
 			title.Font.Size = 80;
-			Color color = code.Item2.Contains("Long") ? Color.Red : Color.Green;
-			title.Font.Color.RGB = ColorTranslator.ToOle(color);
+			var color = code.Item2.Contains("Long") ? 0x3B3BFF : 0x6AE869;
+			title.Font.Color.RGB = color;
 			time = GetTimingsForAnswer(counter);
 			totalTime += time;
 			slide.SlideShowTransition.AdvanceTime = time;
