@@ -20,5 +20,11 @@ namespace PowerPointGeneration.Tests
 			Logger.Writer = new ConsoleWriter();
 			SetTraining.Create();
 		}
+		[TestMethod]
+		public void CreateSlidesForLongMethods()
+		{
+			Logger.Writer = new ConsoleWriter();
+			LongMethodsTraining.Create();
+		}
 	}
 }
