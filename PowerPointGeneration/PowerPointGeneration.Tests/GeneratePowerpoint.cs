@@ -26,5 +26,18 @@ namespace PowerPointGeneration.Tests
 			Logger.Writer = new ConsoleWriter();
 			LongMethodsTraining.Create();
 		}
+		[TestMethod]
+		public void CreateSlidesForUnitTestStories()
+		{
+			Logger.Writer = new ConsoleWriter();
+			UnitTestStoryTraining.Create();
+		}
+
+		[TestMethod]
+		public void CreateSlidesForCodeParagraphs()
+		{
+			Logger.Writer = new ConsoleWriter();
+			CodeParagraphsTrainings.Create();
+		}
 	}
 }

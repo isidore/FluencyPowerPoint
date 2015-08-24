@@ -14,7 +14,7 @@ using Shape = Microsoft.Office.Interop.PowerPoint.Shape;
 
 namespace PowerPointGeneration.Tests
 {
-	public class LongMethodsTraining
+	public class UnitTestStoryTraining
 	{
 		public static void Create()
 		{
@@ -22,21 +22,21 @@ namespace PowerPointGeneration.Tests
 			// Create the Presentation File
 			Presentation pptPresentation = pptApplication.Presentations.Add(MsoTriState.msoTrue);
 			AddCode(pptPresentation);
-			pptPresentation.SaveAs(@"c:\temp\LongMethods.pptx", PpSaveAsFileType.ppSaveAsDefault, MsoTriState.msoTrue);
+			pptPresentation.SaveAs(@"c:\temp\UnitTestStories.pptx", PpSaveAsFileType.ppSaveAsDefault, MsoTriState.msoTrue);
 			pptPresentation.Close();
 		}
 
 		private static Tuple<string, string>[] GetTrainingSet()
 		{
-			var dir = new DirectoryInfo(@"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\LongMethodSmells");
+			var dir = new DirectoryInfo(@"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\UnitTestStories\bad");
 			var files = dir.GetFiles("*.png");
-			var longMethods = files.Select(f => Tuple.Create(f.FullName, "Too Long"));
+			var longMethods = files.Select(f => Tuple.Create(f.FullName, "Not a Story"));
 
-			dir = new DirectoryInfo(@"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\LongMethodSmells\Short Methods");
+			dir = new DirectoryInfo(@"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\UnitTestStories\good");
 			files = dir.GetFiles("*.png");
-			var shortMethods = files.Select(f => Tuple.Create(f.FullName, "Short Enough"));
+			var shortMethods = files.Select(f => Tuple.Create(f.FullName, "Good Story"));
 
-			return shortMethods.Concat(longMethods).Shuffle();
+			return shortMethods.Concat(longMethods).Shuffle().Log("unit test examples", t =>""+ t.Count());
 		}
 
 		private static void AddCode(Presentation pptPresentation)
@@ -68,17 +68,8 @@ namespace PowerPointGeneration.Tests
 		private static float AddPicturePage(Slides slides, int page, CustomLayout customLayout,
 			Tuple<string, string> code, int counter, float totalTime)
 		{
-			var slide = slides.AddSlide(page, customLayout);
-			Shape shape = slide.Shapes[2];
-			slide.Shapes.AddPicture(code.Item1, MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
-				shape.Width, shape.Height);
-			slide.Background.Fill.ForeColor.RGB = 0x2D2D2D;
-			slide.FollowMasterBackground = MsoTriState.msoFalse;
-			float time = GetTimingsForImage(counter);
-			totalTime += time;
-			slide.SlideShowTransition.AdvanceTime = time;
-			slide.SlideShowTransition.AdvanceOnTime = MsoTriState.msoTrue;
-			return totalTime;
+			return CodeParagraphsTrainings.AddImage(slides, page, customLayout, totalTime, GetTimingsForImage(counter), code.Item1);
+		
 		}
 
 		private static float AddAnswerPage(Slides slides, int page, CustomLayout textLayout,
@@ -88,13 +79,13 @@ namespace PowerPointGeneration.Tests
 			Slide slide;
 			float time;
 			slide = slides.AddSlide(page, textLayout);
-			slide.Background.Fill.ForeColor.RGB = 0x2D2D2D;
+			slide.Background.Fill.ForeColor.RGB = 0xFFFFFF;
 			slide.FollowMasterBackground = MsoTriState.msoFalse;
 			var title = slide.Shapes[1].TextFrame.TextRange;
 			title.Text = code.Item2;
 			title.Font.Name = "Arial";
 			title.Font.Size = 80;
-			var color = code.Item2.Contains("Long") ? 0x3B3BFF : 0x6AE869;
+			var color = code.Item2.Contains("Good") ? 0x6AE869 : 0x3B3BFF ;
 			title.Font.Color.RGB = color;
 			time = GetTimingsForAnswer(counter);
 			totalTime += time;
@@ -105,23 +96,14 @@ namespace PowerPointGeneration.Tests
 
 		public static float GetTimingsForImage(int counter)
 		{
-			if (counter < 5)
+			var timings = new Dictionary<int, float>{{5, 4.0f}, {12, 3.5f},{25, 3.0f},{Int32.MaxValue, 2.5f}}   ;
+		  foreach(var t in timings.OrderBy(t => t.Key))
 			{
-				return 4.0f;
+				if (counter <= t.Key){
+				return t.Value;
+				}
 			}
-			else if (counter < 12)
-			{
-				return 3.5f;
-			}
-			else if (counter < 20)
-			{
-				return 3.0f;
-			}
-			else if (counter < 30)
-			{
-				return 2.0f;
-			}
-			return 2f;
+				throw new Exception("Not found for " + counter);
 		}
 
 		public static float GetTimingsForAnswer(int counter)
