@@ -39,5 +39,21 @@ namespace PowerPointGeneration.Tests
 			Logger.Writer = new ConsoleWriter();
 			CodeParagraphsTrainings.Create();
 		}
+        
+        [TestMethod]
+		public void CreateSlidesForPropertyBasedTesting()
+		{
+			Logger.Writer = new ConsoleWriter();
+            PropertyBasedTestingTraining.Create();
+		}
+
+[TestMethod]
+        public void CreateSlidesForCodeSmellsBadNames()
+		{
+			Logger.Writer = new ConsoleWriter();
+            CodeSmellsBadNames.Create();
+		}
+
+
 	}
 }

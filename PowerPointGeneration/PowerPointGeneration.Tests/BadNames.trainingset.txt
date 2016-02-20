@@ -1,0 +1,66 @@
+var formattedBoardName ;
+good
+
+var fbn;
+bad
+
+doStuff();
+bad
+
+def get_json(urllib_response):
+good
+
+var jira_prs = null;
+bad
+
+socket_error_tag
+good
+
+tree234
+bad
+
+snew(struct error_tag)
+bad
+
+sk_error_cl 
+bad
+
+schedule_timer(int clicks)
+bad
+
+public class CPD
+bad
+
+public class CPDCLI
+bad
+
+private void addDirectory(File dir)
+good
+
+public boolean equalsNormalizedOnSystem(path1, path2)
+bad
+
+DBMSMetadata(dburi)
+bad
+
+public class AbstractAllTermDocs
+bad
+
+termEnum
+bad
+
+frmFileOpen
+
+fraLanguage		
+
+oleObject1
+
+
+fraLanguage
+
+fraStyle
+
+
+svrmSaver
+
+void fct(const long kliGalaxies)

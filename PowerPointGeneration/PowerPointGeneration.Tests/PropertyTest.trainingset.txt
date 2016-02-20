@@ -1,0 +1,156 @@
+given "leet"
+when leeted
+then expect "l33t"
+
+example
+
+given a word
+when leeted
+and de-leeted
+then expect the original word
+
+property
+
+given tommy
+  and tommy
+when they are compared
+then they are equal
+
+example
+
+given tommy
+  and tommy
+when you get their hashcodes 
+then the hashcodes are equal
+
+example
+
+given any 2 people
+when they are compared
+then if they are equal they also have the same hashcode
+
+property
+
+given "he liked his salad"
+when degenderfied
+then expect "they liked their salad"
+
+example
+
+given any text
+when degenderfied
+then expect no "he/she/her/him"
+
+property
+
+given a tic tac toe board
+o o x
+x o x
+- - -
+then there are 3 x's and 3 o's
+
+example
+
+given a tic tac toe board 
+ with an even number of moves on it
+then # of o's is equal to the # of x's
+
+property
+
+given a tic tac toe board
+ with n pieces
+when you place the next piece in a valid spot
+the number of pieces is n+1
+
+property
+
+given a tic tac toe board
+- o x
+x o x
+o - -
+when you place an x at (0,0)
+then you have 7 pieces
+
+example
+
+given a tic tac toe board
+- o x
+x o x
+o - -
+when you attempt to place an x at (2,3)
+then you have 6 pieces 
+
+example
+
+given a tic tac toe board
+ with n pieces
+with you try to place the next piece in an invalid spot
+the number of pieces stays the same
+
+property
+
+given the sides 3,4
+when asked for the hypotenuse 
+then expect 5
+
+example
+
+given 3 purchases on a credit card
+the monthly statement
+should show 3 purchases
+
+example
+
+given x purchases on a credit card
+then the monthly statement 
+should show x purchases
+
+property
+
+when you ask for the login page
+then the logo image should be 100 pixels by 100 pixels
+
+example
+
+when you ask for any web page
+then the logo should be between 70-150 pixels
+
+property
+
+when you ask for a web page on mobile
+  and the same web page on desktop
+then the logo should be bigger on the desktop
+
+property
+
+when you follow a link
+then you should always get a 200 ok response
+
+property
+
+given player1 is set to easy
+ and player2 is set to hard
+when they play a game
+then player2 should win
+
+property
+
+given a rest call
+when you send a value of ";drop all tables"
+then the database should still exist
+
+property
+
+given a sucessful post request
+when I make a get request on the same id
+then I should retrieve the original object
+
+property
+
+given any object
+when I store it to the database
+ and then I retrieve it
+then the retrieved object should equal the original object
+
+property
+

@@ -62,6 +62,9 @@
   <ItemGroup>
     <Compile Include="CodeParagraphsTrainings.cs" />
     <Compile Include="Paragraph.cs" />
+    <Compile Include="CodeSmellsBadNames.cs" />
+    <Compile Include="PropertyBasedTestingTraining.cs" />
+    <Compile Include="Timings.cs" />
     <Compile Include="UnitTestStoryTraining.cs" />
     <Compile Include="LongMethodsTraining.cs" />
     <Compile Include="Set.cs" />
