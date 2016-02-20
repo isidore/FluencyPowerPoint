@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CodeSmells.cs" />
     <Compile Include="CodeParagraphsTrainings.cs" />
     <Compile Include="Paragraph.cs" />
     <Compile Include="CodeSmellsBadNames.cs" />

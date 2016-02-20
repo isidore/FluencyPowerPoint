@@ -13,12 +13,11 @@ namespace PowerPointGeneration.Tests
         {
             times.Add(new Tuple<int, int, float>(last, index, timing));
             last = index;
-
         }
 
         public float Get(int counter)
         {
-            return times.First(t => t.Item1 < counter && counter < t.Item2).Item3;
+            return times.First(t => t.Item1 <= counter && counter < t.Item2).Item3;
         }
 
         public IEnumerator GetEnumerator()
