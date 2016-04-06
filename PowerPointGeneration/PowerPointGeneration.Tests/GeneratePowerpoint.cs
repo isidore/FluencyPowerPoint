@@ -1,4 +1,5 @@
-﻿using ApprovalUtilities.SimpleLogger;
+﻿using System;
+using ApprovalUtilities.SimpleLogger;
 using ApprovalUtilities.SimpleLogger.Writers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -57,6 +58,22 @@ namespace PowerPointGeneration.Tests
         }
 
         [TestMethod]
+        public void CreateSlidesForWellMaintained()
+        {
+            Logger.Writer = new ConsoleWriter();
+
+            CodeSmells.Create(new Details()
+            {
+                Name = "WellMaintained",
+                GoodName = "Yes",
+                GoodCount = 7,
+                BadName = "Nope",
+                BadCount = 12,
+                FileEndingWithDot = ".jpg"
+            });
+        }
+
+        [TestMethod]
         public void CreateSlidesForCodeSmells()
         {
             Logger.Writer = new ConsoleWriter();
@@ -65,9 +82,18 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "LongMethods",
                 GoodName = "Short Enough",
-                GoodCount = 18,
+                GoodCount = 35,
                 BadName = "Too Long",
-                BadCount = 17,
+                BadCount = 54,
+                FontSize = 90
+            });
+            CodeSmells.Create(new Details()
+            {
+                Name = "LongLines",
+                GoodName = "Short Enough",
+                GoodCount = 8,
+                BadName = "Too Long",
+                BadCount = 14,
                 BackgroundColor = 0x272822,
                 FontSize = 90
             });
@@ -75,17 +101,17 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "BadNames",
                 GoodName = "Good",
-                GoodCount = 10,
+                GoodCount = 12,
                 BadName = "Bad",
-                BadCount = 29
+                BadCount = 33
             });
             CodeSmells.Create(new Details()
             {
                 Name = "Clutter",
                 GoodName = "Relevant",
-                GoodCount = 28,
+                GoodCount = 30,
                 BadName = "Clutter",
-                BadCount = 28
+                BadCount = 55
             });
             CodeSmells.Create(new Details()
             {
@@ -93,7 +119,7 @@ namespace PowerPointGeneration.Tests
                 GoodName = "Distinct",
                 GoodCount = 4,
                 BadName = "Duplication",
-                BadCount = 7,
+                BadCount = 52,
                 FontSize = 100
             });
             CodeSmells.Create(new Details()
@@ -102,8 +128,9 @@ namespace PowerPointGeneration.Tests
                 GoodName = "Consistency",
                 GoodCount = 1,
                 BadName = "Inconsistency",
-                BadCount = 4,
-                FontSize = 100
+                BadCount = 13,
+                FontSize = 90,
+                Timings = new Timings {{2, 100}, {5, 7}, {20, 5.5F}, {Int32.MaxValue, 4}}
             });
         }
 

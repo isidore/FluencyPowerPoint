@@ -23,8 +23,8 @@ namespace PowerPointGeneration.Tests
         {
             Details = details;
             Good = good;
-            fileName = "CodeSmells-{0}\\{1} {2:00}.png".FormatWith(details.Name,
-                good ? details.GoodName : details.BadName, number);
+            fileName = "CodeSmells-{0}\\{1} {2:00}{3}".FormatWith(details.Name,
+                good ? details.GoodName : details.BadName, number, details.FileEndingWithDot);
         }
 
 
@@ -45,11 +45,15 @@ namespace PowerPointGeneration.Tests
         public float FontSize { get; set; }
         public string GoodNameText { get; set; }
         public string BadNameText { get; set; }
+        public string FileEndingWithDot { get; set; }
+        public Timings Timings { get; set; }
 
         public Details()
         {
             BackgroundColor = 0xFFFFFF;
             FontSize = 120;
+            FileEndingWithDot = ".png";
+            Timings = new Timings {{2, 100}, {5, 4}, {20, 2.5F}, {Int32.MaxValue, 1.5F}};
         }
 
         public String GetTextForGood()
@@ -130,7 +134,7 @@ namespace PowerPointGeneration.Tests
         private static float AddPicturePage(Slides slides, int page, CustomLayout customLayout,
             Smell smell, int counter)
         {
-            float time = GetTimingsForImage(counter);
+            float time = GetTimingsForImage(smell.Details, counter);
 
             return AddImage(slides, page, customLayout, time, smell);
         }
@@ -209,9 +213,9 @@ namespace PowerPointGeneration.Tests
         }
 
 
-        public static float GetTimingsForImage(int counter)
+        public static float GetTimingsForImage(Details details, int counter)
         {
-            return new Timings {{2,100},{5, 3}, {20, 1.5F}, {Int32.MaxValue, 1}}.Get(counter);
+            return details.Timings.Get(counter);
         }
 
         public static float GetTimingsForAnswer(int counter)
