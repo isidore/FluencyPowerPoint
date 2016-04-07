@@ -66,10 +66,12 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "WellMaintained",
                 GoodName = "Yes",
-                GoodCount = 7,
+                GoodCount = 4,
                 BadName = "Nope",
                 BadCount = 12,
-                FileEndingWithDot = ".jpg"
+                FileEndingWithDot = ".jpg",
+                Timings = new Timings { { 2, 100 }, { 5, 2 }, { 20, 1.5F }, { Int32.MaxValue, 1 } }
+
             });
         }
 
