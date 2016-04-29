@@ -79,17 +79,7 @@ namespace PowerPointGeneration.Tests
         public void CreateSlidesForFunction()
         {
             Logger.Writer = new ConsoleWriter();
-            CodeSmells.Create(new Details()
-            {
-                Name = "WellMaintained",
-                GoodName = "Yes",
-                GoodCount = 4,
-                BadName = "Nope",
-                BadCount = 12,
-                FileEndingWithDot = ".jpg",
-                Timings = new Timings { { 2, 100 }, { 5, 2 }, { 20, 1.5F }, { Int32.MaxValue, 1 } }
-
-            });
+            FunctionalPrimer.Create();
         }
 
         [TestMethod]
