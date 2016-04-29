@@ -84,7 +84,7 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "LongMethods",
                 GoodName = "Short Enough",
-                GoodCount = 35,
+                GoodCount = 34,
                 BadName = "Too Long",
                 BadCount = 54,
                 FontSize = 90
@@ -119,7 +119,7 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "Duplication",
                 GoodName = "Distinct",
-                GoodCount = 4,
+                GoodCount = 28,
                 BadName = "Duplication",
                 BadCount = 52,
                 FontSize = 100
@@ -127,8 +127,8 @@ namespace PowerPointGeneration.Tests
             CodeSmells.Create(new Details()
             {
                 Name = "Inconsistency",
-                GoodName = "Consistency",
-                GoodCount = 1,
+                GoodName = "Duplication",
+                GoodCount = 12,
                 BadName = "Inconsistency",
                 BadCount = 13,
                 FontSize = 90,
