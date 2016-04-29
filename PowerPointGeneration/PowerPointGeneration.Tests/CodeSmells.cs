@@ -11,62 +11,6 @@ using Shape = Microsoft.Office.Interop.PowerPoint.Shape;
 
 namespace PowerPointGeneration.Tests
 {
-    public class Smell
-    {
-        public Details Details { get; set; }
-        public bool Good { get; set; }
-
-        public string fileName;
-        private const string BASE = @"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\";
-
-        public Smell(Details details, int number, bool good)
-        {
-            Details = details;
-            Good = good;
-            fileName = "CodeSmells-{0}\\{1} {2:00}{3}".FormatWith(details.Name,
-                good ? details.GoodName : details.BadName, number, details.FileEndingWithDot);
-        }
-
-
-        internal string GetImage()
-        {
-            return "{0}{1}".FormatWith(BASE, fileName);
-        }
-    }
-
-    public class Details
-    {
-        public int GoodCount { get; set; }
-        public int BadCount { get; set; }
-        public string Name { get; set; }
-        public string GoodName { get; set; }
-        public string BadName { get; set; }
-        public int BackgroundColor { get; set; }
-        public float FontSize { get; set; }
-        public string GoodNameText { get; set; }
-        public string BadNameText { get; set; }
-        public string FileEndingWithDot { get; set; }
-        public Timings Timings { get; set; }
-
-        public Details()
-        {
-            BackgroundColor = 0xFFFFFF;
-            FontSize = 120;
-            FileEndingWithDot = ".png";
-            Timings = new Timings {{2, 100}, {5, 4}, {20, 2.5F}, {Int32.MaxValue, 1.5F}};
-        }
-
-        public String GetTextForGood()
-        {
-            return GoodNameText ?? GoodName;
-        }
-
-        public String GetTextForBad()
-        {
-            return BadNameText ?? BadName;
-        }
-    }
-
     public class CodeSmells
     {
         public static void Create(Details details)
