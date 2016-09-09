@@ -1,6 +1,4 @@
-﻿//using System.Data;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -20,30 +18,26 @@ namespace PowerPointGeneration.Tests
             Application pptApplication = new Application();
             // Create the Presentation File
             Presentation pptPresentation = pptApplication.Presentations.Add(MsoTriState.msoTrue);
-            AddTrainingSet(pptPresentation, details);
+            AddTrainingSet(pptPresentation, new FSharpDetails());
             pptPresentation.SaveAs(@"c:\\temp\\{0}.pptx".FormatWith(details.Name), PpSaveAsFileType.ppSaveAsDefault,
                 MsoTriState.msoTrue);
             pptPresentation.Close();
         }
 
-        private static Smell[] GetTrainingSet(Details details)
+        private static LanguageFeature[] GetTrainingSet(LanguageGroup group)
         {
-            var files = GetFiles(details);
-            return files.Take(2)
-                .Concat(files.Skip(2).ToArray().Shuffle())
-                .ToArray()
-                .Log("# of Examples", v => "" + v.Count());
+            var files = GetFiles(group);
+            return files.ToArray().Shuffle();
         }
 
-        private static Smell[] GetFiles(Details details)
+        private static LanguageFeature[] GetFiles(LanguageGroup details)
         {
-            var good = Enumerable.Range(1, details.GoodCount).Select(n => new Smell(details, n, true));
-            var bad = Enumerable.Range(1, details.BadCount).Select(n => new Smell(details, n, false));
+            var good = Enumerable.Range(1, details.Count).Select(n => new LanguageFeature(details, n));
 
-            return new[] {good.First(), bad.First()}.Concat(good.Skip(1)).Concat(bad.Skip(1)).ToArray();
+            return good.ToArray();
         }
 
-        private static void AddTrainingSet(Presentation pptPresentation, Details details)
+        private static void AddTrainingSet(Presentation pptPresentation, FSharpDetails details)
         {
             float totalTime = 0;
             using (Logger.MarkEntryPoints())
@@ -55,20 +49,49 @@ namespace PowerPointGeneration.Tests
                 Slides slides = pptPresentation.Slides;
                 int counter = 0;
                 int page = 1;
-                foreach (var code in GetTrainingSet(details))
+                foreach (var group in details.GetGroups())
                 {
-                     // Question
-                    totalTime += AddPicturePage(slides, page, customLayout, code, counter);
-                    page += 1;
+                    totalTime += AddTitlePage(slides, page++, customLayout, group);
 
-
-                    // Answer
-                    totalTime += AddAnswerPage(slides, page, textLayout, code, counter);
-                    page += 1;
-                    counter++;
+                    foreach (var code in GetTrainingSet(group))
+                    {
+//                        // Question
+//                        totalTime += AddPicturePage(slides, page, customLayout, code, counter);
+//                        page += 1;
+//
+//
+//                        // Answer
+//                        totalTime += AddAnswerPage(slides, page, textLayout, code, counter);
+//                        page += 1;
+//                        counter++;
+                    }
                 }
                 Logger.Variable("Total Time", "{0:00}:{0:00}".FormatWith(totalTime/60, totalTime%60));
             }
+        }
+
+        private static float AddTitlePage(Slides slides, int page, CustomLayout layout, LanguageGroup group)
+        {
+            var slide = slides.AddSlide(page, layout);
+            slide.Background.Fill.ForeColor.RGB = 0xFFFFFF;
+            slide.FollowMasterBackground = MsoTriState.msoFalse;
+            var title = slide.Shapes[1].TextFrame.TextRange;
+            title.Text = group.Name;
+            title.Font.Name = "Arial Black";
+            title.Font.Size = group.TitleSize;
+            slide.Shapes[1].Top = 0;
+            slide.Shapes[1].Left = 0;
+            slide.Shapes[1].Width = slide.Design.SlideMaster.Width;
+            slide.Shapes[1].Height = slide.Design.SlideMaster.Height;
+            var color = 0x000000;
+            title.Font.Color.RGB = color;
+            slide.Shapes[1].ZOrder(MsoZOrderCmd.msoBringToFront);
+
+            var time = 1.0f;
+            slide.SlideShowTransition.AdvanceTime = time;
+
+
+            return time;
         }
 
         private static float AddAnswerPage(Slides slides, int page, CustomLayout customLayout,
@@ -85,7 +108,7 @@ namespace PowerPointGeneration.Tests
             return AddImage(slides, page, customLayout, time, smell);
         }
 
-        private static float AddAnswerImage(Slides slides, int page, CustomLayout customLayout, 
+        private static float AddAnswerImage(Slides slides, int page, CustomLayout customLayout,
             float time, Smell smell)
         {
             var slide = slides.AddSlide(page, customLayout);
@@ -102,7 +125,7 @@ namespace PowerPointGeneration.Tests
             var color = smell.Good ? 0x347400 : 0x3B3BFF;
             title.Font.Color.RGB = color;
             slide.Shapes[1].ZOrder(MsoZOrderCmd.msoBringToFront);
-        
+
             slide.SlideShowTransition.AdvanceTime = time;
             slide.SlideShowTransition.AdvanceOnTime = MsoTriState.msoTrue;
             slide.NotesPage.Shapes.AddShape(MsoAutoShapeType.msoShapeRectangle, 0, 0, 0, 0);
@@ -166,34 +189,50 @@ namespace PowerPointGeneration.Tests
 
         public static float GetTimingsForAnswer(int counter)
         {
-            return new Timings { { 2, 100 },{8,1},{ Int32.MaxValue, 0.5f } }.Get(counter); 
+            return new Timings {{2, 100}, {8, 1}, {Int32.MaxValue, 0.5f}}.Get(counter);
+        }
+    }
+
+    internal class LanguageFeature
+    {
+        private readonly LanguageGroup details;
+        private readonly int number;
+
+        public LanguageFeature(LanguageGroup details, int number)
+        {
+            this.details = details;
+            this.number = number;
         }
     }
 
     public class FSharpDetails
     {
+        public int BackgroundColor = 0xFFFFFF;
+        public string Name = "FSharp";
 
-        public List<LanguageGroup> groups = new List<LanguageGroup>()
+        public IEnumerable<LanguageGroup> GetGroups()
         {
-            new LanguageGroup("Types", 8),
-            new LanguageGroup("Values",6),
-            new LanguageGroup("Function", 12),
-            new LanguageGroup("ForwardPipe", 9),
-            new LanguageGroup("PatternMatching", 11),
-            new LanguageGroup("DiscrimatedUnion",  6),
-        };
+            yield return new LanguageGroup("Types", 8, this);
+            yield return new LanguageGroup("Values", 6, this);
+            yield return new LanguageGroup("Function", 12, this);
+            yield return new LanguageGroup("ForwardPipe", 9, this);
+            yield return new LanguageGroup("PatternMatching", 11, this);
+            yield return new LanguageGroup("DiscrimatedUnion", 6, this);
+        }
     };
 
     public class LanguageGroup
     {
+        public float TitleSize = 48;
         public string Name { get; set; }
         public int Count { get; set; }
+        public FSharpDetails Details { get; set; }
 
-        public LanguageGroup(string Name, int Count)
+        public LanguageGroup(string name, int count, FSharpDetails details)
         {
-            this.Name = Name;
-            this.Count = Count;
+            this.Name = name;
+            this.Count = count;
+            Details = details;
         }
     }
-}
 }
