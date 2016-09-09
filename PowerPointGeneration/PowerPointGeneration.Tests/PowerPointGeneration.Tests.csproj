@@ -74,7 +74,6 @@
     <Compile Include="Set.cs" />
     <Compile Include="SetCard.cs" />
     <Compile Include="SetTraining.cs" />
-    <Compile Include="SparrowData.cs" />
     <Compile Include="SparrowTraining.cs" />
     <Compile Include="GeneratePowerpoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
