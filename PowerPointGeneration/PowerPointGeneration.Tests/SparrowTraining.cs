@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using ApprovalUtilities.SimpleLogger;
 using ApprovalUtilities.Utilities;
@@ -38,7 +39,8 @@ namespace PowerPointGeneration.Tests
                 .ToArray();
 
             int amount = 48;
-            return house.Take(amount).Concat(song.Take(amount)).Shuffle();
+            var trainingSet = house.Take(amount).Concat(song.Take(amount)).Shuffle();
+            return new []{house.First(),song.First()}.Concat(trainingSet).ToArray();
         }
 
 
@@ -72,36 +74,76 @@ namespace PowerPointGeneration.Tests
             Tuple<string, string> sparrow, int counter, float totalTime)
         {
             var slide = slides.AddSlide(page, customLayout);
-            Shape shape = slide.Shapes[2];
-            slide.Shapes.AddPicture(sparrow.Item2, MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
-                shape.Width, shape.Height);
+            PlaceImageOnPage(sparrow, slide);
             float time = GetTimingsForImage(counter);
             totalTime += time;
             slide.SlideShowTransition.AdvanceTime = time;
             slide.SlideShowTransition.AdvanceOnTime = MsoTriState.msoTrue;
             return totalTime;
         }
+        private static void PlaceImageOnPage(Tuple<string, string> sparrow, Slide slide)
+        {
+            var slideHeight = slide.Design.SlideMaster.Height;
+            var slideWidth = slide.Design.SlideMaster.Width;
+            var shape = getShapeSizing(sparrow, slide, slideHeight, slideWidth);
 
+            slide.Shapes.AddPicture(sparrow.Item2, MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
+                shape.Width, shape.Height);
+        }
+        private static Shape getShapeSizing(Tuple<string, string> sparrow, Slide slide, float slideHeight, float slideWidth)
+        {
+            Image image = Image.FromFile(sparrow.Item2);
+            Shape shape = slide.Shapes[2];
+            var imageWidth = image.Width;
+            var imageHeight = image.Height;
+            if (imageHeight < imageWidth)
+            {
+                shape.Height = imageHeight * (slideWidth / (float)imageWidth);
+                shape.Width = slideWidth;
+                shape.Top = (slideHeight - shape.Height) / 2.0F;
+                shape.Left = 0;
+            }
+            else
+            {
+                shape.Width = imageWidth * (slideHeight / (float)imageHeight);
+                shape.Height = slideHeight;
+                shape.Top = 0;
+                shape.Left = (slideWidth - shape.Width) / 2.0F;
+            }
+            //            Logger.Variable("Shape",
+            //                "[top={0},left={1},{2},{3}]".FormatWith(shape.Top, shape.Left, shape.Width, shape.Height));
+            return shape;
+        }
         private static float AddAnswerPage(Slides slides, int page, CustomLayout textLayout,
             Tuple<string, string> sparrow, int counter,
             float totalTime)
         {
-            Slide slide;
-            float time;
-            slide = slides.AddSlide(page, textLayout);
-            var title = slide.Shapes[1].TextFrame.TextRange;
-            title.Text = sparrow.Item1.Split(' ').First();
-            title.Font.Name = "Arial";
-            title.Font.Size = 80;
-            var subtitle = slide.Shapes[2].TextFrame.TextRange;
-            subtitle.Text = sparrow.Item1.Split(' ').Last();
-            subtitle.Font.Name = "Arial";
-            subtitle.Font.Size = 30;
-            time = GetTimingsForAnswer(counter);
+            var slide = slides.AddSlide(page, textLayout);
+            PlaceImageOnPage(sparrow,slide);
+            PlaceTextOnPage(sparrow, slide);
+
+            float time = GetTimingsForAnswer(counter);
             totalTime += time;
             slide.SlideShowTransition.AdvanceTime = time;
             slide.SlideShowTransition.AdvanceOnTime = MsoTriState.msoTrue;
-            return totalTime;
+            return totalTime; 
+            
+        }
+
+        private static void PlaceTextOnPage(Tuple<string, string> sparrow, Slide slide)
+        {
+            var title = slide.Shapes[1].TextFrame.TextRange;
+            title.Text = sparrow.Item1;
+            title.Font.Name = "Arial Black";
+            title.Font.Size = 80;
+            slide.Shapes[1].Top = 0;
+            slide.Shapes[1].Left = 0;
+            slide.Shapes[1].Width = slide.Design.SlideMaster.Width;
+            slide.Shapes[1].Height = slide.Design.SlideMaster.Height;
+            var color = 0xFFFFFF;
+            title.Font.Color.RGB = color;
+            title.Font.Shadow = MsoTriState.msoTrue;
+            slide.Shapes[1].ZOrder(MsoZOrderCmd.msoBringToFront);
         }
 
 
