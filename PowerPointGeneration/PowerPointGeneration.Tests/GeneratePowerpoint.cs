@@ -159,5 +159,23 @@ namespace PowerPointGeneration.Tests
                 FontSize = 90
             });
         }
+
+        [TestMethod]
+        public void CreateSlidesForCynefin()
+        {
+            Logger.Writer = new ConsoleWriter();
+
+           
+            CodeSmells.Create(new Details()
+            {
+                Name = "Complex",
+                GoodName = "Complicated",
+                GoodCount = 23,
+                BadName = "Complex",
+                BadCount = 21,
+                FontSize = 90,
+                Timings = new Timings { { 2, 100 }, { 12, 4.0f },  { 25, 3 }, { Int32.MaxValue, 2 } }
+            });
+        }
     }
 }
