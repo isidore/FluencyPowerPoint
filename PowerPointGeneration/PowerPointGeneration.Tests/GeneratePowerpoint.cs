@@ -177,5 +177,57 @@ namespace PowerPointGeneration.Tests
                 Timings = new Timings { { 2, 100 }, { 12, 4.0f },  { 25, 3 }, { Int32.MaxValue, 2 } }
             });
         }
+        
+        [TestMethod]
+        public void CreateLanguageSlides()
+        {
+            Logger.Writer = new ConsoleWriter();
+            var slower = new Timings {{2, 100}, {12, 4.0f}, {25, 3}, {Int32.MaxValue, 2}};
+   
+            CodeSmells.Create(new Details()
+            {
+                baseDirectory = @"C:\temp\languages\",
+                FileNameFilter = "{1}.{2:00}{3}",
+                Name = "RustGo",
+                GoodName = "Rust",
+                GoodCount = 23,
+                BadName = "Go",
+                BadCount = 23,
+                Timings = slower
+            });       
+            CodeSmells.Create(new Details()
+            {
+                baseDirectory = @"C:\temp\languages\",
+                FileNameFilter = "{1}.Assignment.{2:00}{3}",
+                Name = "RustGo.Assignment",
+                GoodName = "Rust",
+                GoodCount = 18,
+                BadName = "Go",
+                BadCount = 19,
+                Timings = slower
+            });
+            CodeSmells.Create(new Details()
+            {
+                baseDirectory = @"C:\temp\languages\",
+                FileNameFilter = "{1}.{2:00}{3}",
+                Name = "RustHaskell",
+                GoodName = "Rust",
+                GoodCount = 21,
+                BadName = "Haskell",
+                BadCount = 21,
+                Timings = slower
+            });
+               CodeSmells.Create(new Details()
+            {
+                baseDirectory = @"C:\temp\languages\",
+                FileNameFilter = "{1}.Assignment.{2:00}{3}",
+                Name = "RustHaskell.Assignment",
+                GoodName = "Rust",
+                GoodCount = 18,
+                BadName = "Haskell",
+                BadCount = 17,
+                Timings = slower
+            });
+        }
     }
 }

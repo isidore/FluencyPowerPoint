@@ -15,6 +15,8 @@ namespace PowerPointGeneration.Tests
         public string BadNameText { get; set; }
         public string FileEndingWithDot { get; set; }
         public Timings Timings { get; set; }
+        public string baseDirectory { get; set; }
+        public string FileNameFilter { get; set; }
 
         public Details()
         {
@@ -22,6 +24,8 @@ namespace PowerPointGeneration.Tests
             FontSize = 120;
             FileEndingWithDot = ".png";
             Timings = new Timings {{2, 100}, {5, 4}, {20, 2.5F}, {Int32.MaxValue, 1.5F}};
+            baseDirectory =  @"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\";
+            FileNameFilter = "CodeSmells-{0}\\{1} {2:00}{3}";
         }
 
         public String GetTextForGood()
@@ -33,5 +37,6 @@ namespace PowerPointGeneration.Tests
         {
             return BadNameText ?? BadName;
         }
+
     }
 }
