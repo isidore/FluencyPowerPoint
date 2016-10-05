@@ -39,8 +39,26 @@ namespace PowerPointGeneration.Tests
                 .ToArray();
 
             int amount = 48;
-            var trainingSet = house.Take(amount).Concat(song.Take(amount)).Shuffle();
-            return new []{house.First(),song.First()}.Concat(trainingSet).ToArray();
+            return CreateShuffledDeck(house.Take(amount), song.Take(amount));
+        }
+
+        private static T[] CreateShuffledDeck<T>(IEnumerable<T> deckA, IEnumerable<T> deckB)
+        {
+            var results = new List<T>();
+            var listA = new Queue<T>(deckA);
+            var listB = new Queue<T>(deckB);
+            results.Add(listA.Dequeue());
+            results.Add(listB.Dequeue());
+            var random = new Random();
+            while (0 < listA.Count + listB.Count)
+            {
+                var queue = (random.NextDouble() < 0.5) ? listA : listB;
+                if (0 < queue.Count)
+                {
+                    results.Add(queue.Dequeue());
+                }
+            }
+            return results.ToArray();
         }
 
 
@@ -58,13 +76,13 @@ namespace PowerPointGeneration.Tests
                 int page = 1;
                 foreach (var sparrow in GetTrainingSet())
                 {
-                    counter++;
                     // Question
                     totalTime = AddPicturePage(slides, page, customLayout, sparrow, counter, totalTime);
                     page++;
                     // Answer
                     totalTime = AddAnswerPage(slides, page, textLayout, sparrow, counter, totalTime);
                     page++;
+                    counter++;
                 }
                 Logger.Variable("Total Time", "{0:00}:{0:00}".FormatWith(totalTime/60, totalTime%60));
             }
