@@ -100,9 +100,9 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "LongLines",
                 GoodName = "Short Enough",
-                GoodCount = 8,
+                GoodCount = 15,
                 BadName = "Too Long",
-                BadCount = 14,
+                BadCount = 26,
                 BackgroundColor = 0x272822,
                 FontSize = 90
             });
@@ -120,7 +120,7 @@ namespace PowerPointGeneration.Tests
                 GoodName = "Relevant",
                 GoodCount = 30,
                 BadName = "Clutter",
-                BadCount = 55
+                BadCount = 56
             });
             CodeSmells.Create(new Details()
             {
@@ -128,7 +128,7 @@ namespace PowerPointGeneration.Tests
                 GoodName = "Distinct",
                 GoodCount = 28,
                 BadName = "Duplication",
-                BadCount = 52,
+                BadCount = 53,
                 FontSize = 100
             });
             CodeSmells.Create(new Details()
@@ -137,7 +137,7 @@ namespace PowerPointGeneration.Tests
                 GoodName = "Duplication",
                 GoodCount = 12,
                 BadName = "Inconsistency",
-                BadCount = 13,
+                BadCount = 15,
                 FontSize = 90,
                 Timings = new Timings {{2, 100}, {5, 7}, {20, 5.5F}, {Int32.MaxValue, 4}}
             });
