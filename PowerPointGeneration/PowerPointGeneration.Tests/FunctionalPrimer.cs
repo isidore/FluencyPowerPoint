@@ -139,13 +139,13 @@ namespace PowerPointGeneration.Tests
         {
             var slideHeight = slide.Design.SlideMaster.Height;
             var slideWidth = slide.Design.SlideMaster.Width;
-            var shape = getShapeSizing(smell, slide, slideHeight, slideWidth);
+            var shape = GetShapeSizing(smell, slide, slideHeight, slideWidth);
 
             slide.Shapes.AddPicture(smell.GetImage(), MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
                 shape.Width, shape.Height);
         }
 
-        private static Shape getShapeSizing(Smell smell, Slide slide, float slideHeight, float slideWidth)
+        private static Shape GetShapeSizing(Smell smell, Slide slide, float slideHeight, float slideWidth)
         {
             Image image = Image.FromFile(smell.GetImage());
             Shape shape = slide.Shapes[2];

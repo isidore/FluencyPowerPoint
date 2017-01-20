@@ -38,7 +38,7 @@ namespace PowerPointGeneration.Tests
                 .Select(n => Tuple.Create("Song", @"c:\temp\birds\sparrow_song_{0:00}.jpg".FormatWith(n)))
                 .ToArray();
 
-            int amount = 48;
+            int amount = 53;
             return CreateShuffledDeck(house.Take(amount), song.Take(amount));
         }
 

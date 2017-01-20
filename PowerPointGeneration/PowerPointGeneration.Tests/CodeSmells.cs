@@ -1,6 +1,7 @@
 ﻿//using System.Data;
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using ApprovalUtilities.SimpleLogger;
@@ -26,19 +27,25 @@ namespace PowerPointGeneration.Tests
 
         private static Smell[] GetTrainingSet(Details details)
         {
-            var files = GetFiles(details);
-            return files.Take(2)
-                .Concat(files.Skip(2).ToArray().Shuffle())
-                .ToArray()
-                .Log("# of Examples", v => "" + v.Count());
+            return GetFiles(details).Log("# of Examples", v => "" + v.Count());
         }
 
         private static Smell[] GetFiles(Details details)
         {
-            var good = Enumerable.Range(1, details.GoodCount).Select(n => new Smell(details, n, true));
-            var bad = Enumerable.Range(1, details.BadCount).Select(n => new Smell(details, n, false));
-
-            return new[] {good.First(), bad.First()}.Concat(good.Skip(1)).Concat(bad.Skip(1)).ToArray();
+            var good = Enumerable.Range(1, details.GoodCount).Select(n => new Smell(details, n, true)).ToList();
+            var bad = Enumerable.Range(1, details.BadCount).Select(n => new Smell(details, n, false)).ToList();
+            var r = new Random();
+            var results = new List<Smell>(){good.RemoveFirst(), bad.RemoveFirst()};
+            
+            while (0 < good.Count && 0 < bad.Count)
+            {
+                var from = r.NextBool() ? good : bad;
+                if (0 < from.Count)
+                {
+                    results.Add(from.RemoveFirst());
+                }
+            }
+            return results.ToArray();
         }
 
         private static void AddTrainingSet(Presentation pptPresentation, Details details)
@@ -55,7 +62,7 @@ namespace PowerPointGeneration.Tests
                 int page = 1;
                 foreach (var code in GetTrainingSet(details))
                 {
-                     // Question
+                    // Question
                     totalTime += AddPicturePage(slides, page, customLayout, code, counter);
                     page += 1;
 
@@ -83,7 +90,7 @@ namespace PowerPointGeneration.Tests
             return AddImage(slides, page, customLayout, time, smell);
         }
 
-        private static float AddAnswerImage(Slides slides, int page, CustomLayout customLayout, 
+        private static float AddAnswerImage(Slides slides, int page, CustomLayout customLayout,
             float time, Smell smell)
         {
             var slide = slides.AddSlide(page, customLayout);
@@ -100,7 +107,7 @@ namespace PowerPointGeneration.Tests
             var color = smell.Good ? 0x347400 : 0x3B3BFF;
             title.Font.Color.RGB = color;
             slide.Shapes[1].ZOrder(MsoZOrderCmd.msoBringToFront);
-        
+
             slide.SlideShowTransition.AdvanceTime = time;
             slide.SlideShowTransition.AdvanceOnTime = MsoTriState.msoTrue;
             slide.NotesPage.Shapes.AddShape(MsoAutoShapeType.msoShapeRectangle, 0, 0, 0, 0);
@@ -114,13 +121,13 @@ namespace PowerPointGeneration.Tests
         {
             var slideHeight = slide.Design.SlideMaster.Height;
             var slideWidth = slide.Design.SlideMaster.Width;
-            var shape = getShapeSizing(smell, slide, slideHeight, slideWidth);
+            var shape = GetShapeSizing(smell, slide, slideHeight, slideWidth);
 
             slide.Shapes.AddPicture(smell.GetImage(), MsoTriState.msoFalse, MsoTriState.msoTrue, shape.Left, shape.Top,
                 shape.Width, shape.Height);
         }
 
-        private static Shape getShapeSizing(Smell smell, Slide slide, float slideHeight, float slideWidth)
+        private static Shape GetShapeSizing(Smell smell, Slide slide, float slideHeight, float slideWidth)
         {
             Image image = Image.FromFile(smell.GetImage());
             Shape shape = slide.Shapes[2];
@@ -164,7 +171,7 @@ namespace PowerPointGeneration.Tests
 
         public static float GetTimingsForAnswer(int counter)
         {
-            return new Timings { { 2, 100 },{8,1},{ Int32.MaxValue, 0.5f } }.Get(counter); 
+            return new Timings {{2, 100}, {8, 1}, {Int32.MaxValue, 0.5f}}.Get(counter);
         }
     }
 }

@@ -110,9 +110,9 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "BadNames",
                 GoodName = "Good",
-                GoodCount = 12,
+                GoodCount = 27,
                 BadName = "Bad",
-                BadCount = 33
+                BadCount = 36
             });
             CodeSmells.Create(new Details()
             {
