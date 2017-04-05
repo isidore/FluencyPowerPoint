@@ -68,6 +68,7 @@
     <Compile Include="NumberUtils.cs" />
     <Compile Include="Paragraph.cs" />
     <Compile Include="CodeSmellsBadNames.cs" />
+    <Compile Include="UserStoriesTraining.cs" />
     <Compile Include="PropertyBasedTestingTraining.cs" />
     <Compile Include="Smell.cs" />
     <Compile Include="Timings.cs" />

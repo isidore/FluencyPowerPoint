@@ -1,0 +1,99 @@
+Clothes shopper wants to find store near them
+so they can decide if they have enough time to shop
+
+need
+
+Clothes shopper wants a drop down list of zipcodes to find a store near them
+so they can decide if they have enough time to shop
+
+solution
+
+Stock trader wants hot failover to increase uptime
+
+solution
+
+Stock trader wants 99.9% uptime 
+
+need
+
+Shopper wants 100 items shown at a time in 4k resolution 
+so they can clearly see wide variety of options
+
+solution
+
+Shopper wants to select the number of items shown at a time 
+so they can shop the way they want
+
+need
+
+Shopper wants database queries to take less than 
+1/2 second to reduce time shopping
+
+solution
+
+Shopper wants app to respond in less than 
+1/2 second to reduce time shopping
+
+need
+
+Game players want down time of no more 
+than 10 minutes per month 
+so they can play whenever they want
+
+need
+
+Game players want server down time of no more 
+than 10 minutes per month 
+so they can play whenever they want
+
+solution
+
+Holiday shoppers want server infrastructure to be scalable
+so their experience is the same as the rest of the year
+
+solution
+
+Holiday shoppers want experience to be the same
+regardless of how many people are shopping 
+
+need
+
+Compliance officer wants to uniquely identify each customer so they can ensure privacy
+
+need
+
+Compliance officer wants name/address combo to uniquely identify each customer so they can ensure privacy
+
+solution
+
+As a shopper I want a modal dialog to capture email addresses
+so that I stay informed
+
+solution 
+
+As a shopper I want to easily provide my email addresses
+so that I stay informed
+
+need 
+
+As a shopper I want a tab view of my order
+so that I can understand the various parts
+
+solution
+
+As a shopper I want a clear view of my order
+so that I can understand the various parts
+
+need
+
+I need a new database table to track the progress of an order
+so that I know the shipping status
+
+solution
+
+I want to know when my order has been picked, shipped and delivered
+so that I know the shipping status
+
+need
+
+
