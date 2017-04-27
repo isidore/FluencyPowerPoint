@@ -9,18 +9,25 @@ namespace PowerPointGeneration.Tests
 
         public string fileName;
 
-        public Smell(Details details, int number, bool good)
+        public Smell(Details details, int number, bool good):
+            this(
+            details, good, "{0}{1}".FormatWith(details.baseDirectory, details.FileNameFilter.FormatWith(details.Name,
+                good ? details.GoodName : details.BadName, number, details.FileEndingWithDot) ))
+        {
+         
+        }
+
+        public Smell(Details details,  bool good, string fileName)
         {
             Details = details;
             Good = good;
-            fileName = details.FileNameFilter.FormatWith(details.Name,
-                good ? details.GoodName : details.BadName, number, details.FileEndingWithDot);
+            this.fileName = fileName;
         }
 
 
         internal string GetImage()
         {
-            return "{0}{1}".FormatWith(Details.baseDirectory, fileName);
+            return fileName;
         }
     }
 }

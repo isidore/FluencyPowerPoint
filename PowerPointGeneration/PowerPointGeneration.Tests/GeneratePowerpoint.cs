@@ -35,9 +35,7 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "LongMethods",
                 GoodName = "Short Enough",
-                GoodCount = 34,
                 BadName = "Too Long",
-                BadCount = 54,
                 FontSize = 90
             });
         }
@@ -86,9 +84,7 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "WellMaintained",
                 GoodName = "Yes",
-                GoodCount = 4,
                 BadName = "Nope",
-                BadCount = 12,
                 FileEndingWithDot = ".jpg",
                 Timings = new Timings { { 2, 100 }, { 5, 2 }, { 20, 1.5F }, { Int32.MaxValue, 1 } }
 
@@ -112,9 +108,7 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "LongLines",
                 GoodName = "Short Enough",
-                GoodCount = 15,
                 BadName = "Too Long",
-                BadCount = 26,
                 BackgroundColor = 0x272822,
                 FontSize = 90
             });
@@ -122,34 +116,26 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "BadNames",
                 GoodName = "Good",
-                GoodCount = 27,
                 BadName = "Bad",
-                BadCount = 36
             });
             CodeSmells.Create(new Details()
             {
                 Name = "Clutter",
                 GoodName = "Relevant",
-                GoodCount = 30,
                 BadName = "Clutter",
-                BadCount = 56
             });
             CodeSmells.Create(new Details()
             {
                 Name = "Duplication",
                 GoodName = "Distinct",
-                GoodCount = 28,
                 BadName = "Duplication",
-                BadCount = 53,
                 FontSize = 100
             });
             CodeSmells.Create(new Details()
             {
                 Name = "Inconsistency",
                 GoodName = "Duplication",
-                GoodCount = 12,
                 BadName = "Inconsistency",
-                BadCount = 15,
                 FontSize = 90,
                 Timings = new Timings {{2, 100}, {5, 7}, {20, 5.5F}, {Int32.MaxValue, 4}}
             });
@@ -163,10 +149,8 @@ namespace PowerPointGeneration.Tests
                 Name = "LongMethods",
                 GoodName = "Short Enough",
                 GoodNameText = "Lyhyt",
-                GoodCount = 18,
                 BadName = "Too Long",
                 BadNameText = "Pitkä",
-                BadCount = 17,
                 BackgroundColor = 0x272822,
                 FontSize = 90
             });
@@ -182,9 +166,7 @@ namespace PowerPointGeneration.Tests
             {
                 Name = "Complex",
                 GoodName = "Complicated",
-                GoodCount = 23,
                 BadName = "Complex",
-                BadCount = 21,
                 FontSize = 90,
                 Timings = new Timings { { 2, 100 }, { 12, 4.0f },  { 25, 3 }, { Int32.MaxValue, 2 } }
             });
@@ -202,9 +184,7 @@ namespace PowerPointGeneration.Tests
                 FileNameFilter = "{1}.{2:00}{3}",
                 Name = "RustGo",
                 GoodName = "Rust",
-                GoodCount = 23,
                 BadName = "Go",
-                BadCount = 23,
                 Timings = slower
             });       
             CodeSmells.Create(new Details()
@@ -213,9 +193,7 @@ namespace PowerPointGeneration.Tests
                 FileNameFilter = "{1}.Assignment.{2:00}{3}",
                 Name = "RustGo.Assignment",
                 GoodName = "Rust",
-                GoodCount = 18,
                 BadName = "Go",
-                BadCount = 19,
                 Timings = slower
             });
             CodeSmells.Create(new Details()
@@ -224,9 +202,7 @@ namespace PowerPointGeneration.Tests
                 FileNameFilter = "{1}.{2:00}{3}",
                 Name = "RustHaskell",
                 GoodName = "Rust",
-                GoodCount = 21,
                 BadName = "Haskell",
-                BadCount = 21,
                 Timings = slower
             });
                CodeSmells.Create(new Details()
@@ -235,9 +211,7 @@ namespace PowerPointGeneration.Tests
                 FileNameFilter = "{1}.Assignment.{2:00}{3}",
                 Name = "RustHaskell.Assignment",
                 GoodName = "Rust",
-                GoodCount = 18,
                 BadName = "Haskell",
-                BadCount = 17,
                 Timings = slower
             });
         }

@@ -4,8 +4,7 @@ namespace PowerPointGeneration.Tests
 {
     public class Details
     {
-        public int GoodCount { get; set; }
-        public int BadCount { get; set; }
+
         public string Name { get; set; }
         public string GoodName { get; set; }
         public string BadName { get; set; }

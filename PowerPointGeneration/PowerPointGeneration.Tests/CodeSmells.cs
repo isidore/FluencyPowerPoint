@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using ApprovalUtilities.SimpleLogger;
 using ApprovalUtilities.Utilities;
@@ -33,11 +34,9 @@ namespace PowerPointGeneration.Tests
         private static Smell[] GetFiles(Details details)
         {
             var good = LoadSmellsFromDetails(details, good: true);
-            var bad = Enumerable.Range(1, details.BadCount).Select(n => new Smell(details, n, false)).ToList();
+            var bad = LoadSmellsFromDetails(details, good: false);
             var r = new Random();
             var results = new List<Smell>(){good.RemoveFirst(), bad.RemoveFirst()};
-            Logger.Variable("good count", details.GoodCount + " | " + good.Count);
-            Logger.Variable("bad count", details.BadCount + " | " + bad.Count);
             while (0 < good.Count || 0 < bad.Count)
             {
                 var from = r.NextBool() ? good : bad;
@@ -51,8 +50,11 @@ namespace PowerPointGeneration.Tests
 
         private static List<Smell> LoadSmellsFromDetails(Details details, bool good)
         {
-
-            return Enumerable.Range(1, details.GoodCount).Select(n => new Smell(details, n, true)).ToList();
+            var dir = new DirectoryInfo(details.baseDirectory + "CodeSmells-" + details.Name);
+            var name = good ? details.GoodName: details.BadName;
+            var files = dir.GetFiles(name +  "*");
+            Logger.Variable(name + " files", files.Length);
+            return files.Select(f => new Smell(details, good,f.FullName)).ToList();
         }
 
         private static void AddTrainingSet(Presentation pptPresentation, Details details)
