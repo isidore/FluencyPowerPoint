@@ -32,12 +32,13 @@ namespace PowerPointGeneration.Tests
 
         private static Smell[] GetFiles(Details details)
         {
-            var good = Enumerable.Range(1, details.GoodCount).Select(n => new Smell(details, n, true)).ToList();
+            var good = LoadSmellsFromDetails(details, good: true);
             var bad = Enumerable.Range(1, details.BadCount).Select(n => new Smell(details, n, false)).ToList();
             var r = new Random();
             var results = new List<Smell>(){good.RemoveFirst(), bad.RemoveFirst()};
-            
-            while (0 < good.Count && 0 < bad.Count)
+            Logger.Variable("good count", details.GoodCount + " | " + good.Count);
+            Logger.Variable("bad count", details.BadCount + " | " + bad.Count);
+            while (0 < good.Count || 0 < bad.Count)
             {
                 var from = r.NextBool() ? good : bad;
                 if (0 < from.Count)
@@ -46,6 +47,12 @@ namespace PowerPointGeneration.Tests
                 }
             }
             return results.ToArray();
+        }
+
+        private static List<Smell> LoadSmellsFromDetails(Details details, bool good)
+        {
+
+            return Enumerable.Range(1, details.GoodCount).Select(n => new Smell(details, n, true)).ToList();
         }
 
         private static void AddTrainingSet(Presentation pptPresentation, Details details)

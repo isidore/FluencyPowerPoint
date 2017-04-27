@@ -73,7 +73,6 @@
     <Compile Include="Smell.cs" />
     <Compile Include="Timings.cs" />
     <Compile Include="UnitTestStoryTraining.cs" />
-    <Compile Include="LongMethodsTraining.cs" />
     <Compile Include="Set.cs" />
     <Compile Include="SetCard.cs" />
     <Compile Include="SetTraining.cs" />

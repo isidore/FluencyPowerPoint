@@ -8,6 +8,12 @@ namespace PowerPointGeneration.Tests
     [TestClass]
     public class GeneratePowerpoint
     {
+        public GeneratePowerpoint()
+        {
+
+            Logger.Writer = new ConsoleWriter();
+           
+        }
         [TestMethod]
         public void CreateSlidesForSparrows()
         {
@@ -25,8 +31,15 @@ namespace PowerPointGeneration.Tests
         [TestMethod]
         public void CreateSlidesForLongMethods()
         {
-            Logger.Writer = new ConsoleWriter();
-            LongMethodsTraining.Create();
+            CodeSmells.Create(new Details()
+            {
+                Name = "LongMethods",
+                GoodName = "Short Enough",
+                GoodCount = 34,
+                BadName = "Too Long",
+                BadCount = 54,
+                FontSize = 90
+            });
         }
 
         [TestMethod]
@@ -94,15 +107,7 @@ namespace PowerPointGeneration.Tests
         {
             Logger.Writer = new ConsoleWriter();
 
-            CodeSmells.Create(new Details()
-            {
-                Name = "LongMethods",
-                GoodName = "Short Enough",
-                GoodCount = 34,
-                BadName = "Too Long",
-                BadCount = 54,
-                FontSize = 90
-            });
+           CreateSlidesForLongMethods();
             CodeSmells.Create(new Details()
             {
                 Name = "LongLines",
