@@ -17,6 +17,8 @@ namespace PowerPointGeneration.Tests
         public string baseDirectory { get; set; }
         public string FileNameFilter { get; set; }
 
+        public string DirectoryName { get; set; }
+
         public Details()
         {
             BackgroundColor = 0xFFFFFF;
@@ -25,6 +27,7 @@ namespace PowerPointGeneration.Tests
             Timings = new Timings {{2, 100}, {5, 4}, {20, 2.5F}, {Int32.MaxValue, 1.5F}};
             baseDirectory =  @"C:\code\FluencyPowerPoint\PowerPointGeneration\PowerPointGeneration.Tests\";
             FileNameFilter = "CodeSmells-{0}\\{1} {2:00}{3}";
+            DirectoryName = baseDirectory + "CodeSmells-" + Name;
         }
 
         public String GetTextForGood()

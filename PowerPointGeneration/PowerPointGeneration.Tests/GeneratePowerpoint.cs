@@ -155,6 +155,24 @@ namespace PowerPointGeneration.Tests
                 FontSize = 90
             });
         }
+        [TestMethod]
+        public void CreateHashtags()
+        {
+            CodeSmells.Create(new Details()
+            {
+                baseDirectory = @"C:\code\hashtag_deck\sparrowgram\",
+                DirectoryName = @"C:\code\hashtag_deck\sparrowgram\",
+                Name = "HashTags",
+                GoodName = "Discoverable",
+                GoodNameText = "Yes",
+                BadName = "Meh",
+                BadNameText = "No",
+                FileNameFilter = "{1} {2:00}{3}",
+                FontSize = 90,
+                Timings = new Timings { { 2, 100 }, { 5, 6 }, {10 , 5 }, {10,4} ,{ Int32.MaxValue, 3 } }
+
+            });
+        }
 
         [TestMethod]
         public void CreateSlidesForCynefin()

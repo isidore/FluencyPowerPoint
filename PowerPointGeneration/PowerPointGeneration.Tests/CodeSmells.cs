@@ -50,7 +50,7 @@ namespace PowerPointGeneration.Tests
 
         private static List<Smell> LoadSmellsFromDetails(Details details, bool good)
         {
-            var dir = new DirectoryInfo(details.baseDirectory + "CodeSmells-" + details.Name);
+            var dir = new DirectoryInfo(details.DirectoryName);
             var name = good ? details.GoodName: details.BadName;
             var files = dir.GetFiles(name +  "*");
             Logger.Variable(name + " files", files.Length);
@@ -81,6 +81,7 @@ namespace PowerPointGeneration.Tests
                     page += 1;
                     counter++;
                 }
+                totalTime = totalTime - 400; // remove first 4 slides
                 Logger.Variable("Total Time", "{0:00}:{0:00}".FormatWith(totalTime/60, totalTime%60));
             }
         }
