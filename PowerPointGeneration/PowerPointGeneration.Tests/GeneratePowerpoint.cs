@@ -164,12 +164,12 @@ namespace PowerPointGeneration.Tests
                 DirectoryName = @"C:\code\hashtag_deck\sparrowgram\",
                 Name = "HashTags",
                 GoodName = "Discoverable",
-                GoodNameText = "Yes",
+                GoodNameText = "Good",
                 BadName = "Meh",
-                BadNameText = "No",
+                BadNameText = "Bad",
                 FileNameFilter = "{1} {2:00}{3}",
                 FontSize = 90,
-                Timings = new Timings { { 2, 100 }, { 5, 6 }, {10 , 5 }, {10,4} ,{ Int32.MaxValue, 3 } }
+                Timings = new Timings { { 2, 100 }, { 5, 5 }, {10 , 5 }, {10,4} ,{ Int32.MaxValue, 3 } }
 
             });
         }
