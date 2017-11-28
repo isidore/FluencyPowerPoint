@@ -65,6 +65,7 @@
     <Compile Include="CodeSmells.cs" />
     <Compile Include="CodeParagraphsTrainings.cs" />
     <Compile Include="Details.cs" />
+    <Compile Include="GeneratePowerpointGerman.cs" />
     <Compile Include="NumberUtils.cs" />
     <Compile Include="Paragraph.cs" />
     <Compile Include="CodeSmellsBadNames.cs" />

@@ -4,8 +4,18 @@ namespace PowerPointGeneration.Tests
 {
     public class Details
     {
+        private string name;
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                DirectoryName = baseDirectory + "CodeSmells-" + Name;
+            }
+        }
+
         public string GoodName { get; set; }
         public string BadName { get; set; }
         public int BackgroundColor { get; set; }

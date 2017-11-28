@@ -20,6 +20,12 @@ namespace PowerPointGeneration.Tests
             Logger.Writer = new ConsoleWriter();
             SparrowTraining.Create();
         }
+        [TestMethod]
+        public void CreateSlidesForSparrowsInGerman()
+        {
+            Logger.Writer = new ConsoleWriter();
+            SparrowTraining.Create("Haus","Sing");
+        }
 
         [TestMethod]
         public void CreateSlidesForSet()

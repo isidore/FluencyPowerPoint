@@ -12,30 +12,35 @@ namespace PowerPointGeneration.Tests
 {
     public class SparrowTraining
     {
-        public static void Create()
+        public static void Create(string houseText, string songText)
         {
             Application pptApplication = new Application();
             // Create the Presentation File
             Presentation pptPresentation = pptApplication.Presentations.Add(MsoTriState.msoTrue);
-            AddSparrows(pptPresentation);
+            AddSparrows(pptPresentation, GetTrainingSet(houseText, songText));
             pptPresentation.SaveAs(@"c:\temp\Sparrows.pptx", PpSaveAsFileType.ppSaveAsDefault, MsoTriState.msoTrue);
             pptPresentation.Close();
-//			pptApplication.Quit();
+            //			pptApplication.Quit();
+        }
+
+        public static void Create()
+        {
+            Create("House", "Song");
         }
 
 
-        private static Tuple<string, string>[] GetTrainingSet()
+        private static Tuple<string, string>[] GetTrainingSet(string houseText, string songText)
         {
             var house =
-                Enumerable.Range(1, 57)
-                    .Select(n => Tuple.Create("House", @"c:\temp\birds\sparrow_house_{0:00}.jpg".FormatWith(n)))
+                Enumerable.Range(1, 53)
+                    .Select(n => Tuple.Create(houseText, @"c:\temp\birds\sparrow_house_{0:00}.jpg".FormatWith(n)))
                     .ToArray();
             var chipping =
                 Enumerable.Range(1, 32)
                     .Select(n => Tuple.Create("Chipping", @"c:\temp\birds\sparrow_chipping_{0:00}.jpg".FormatWith(n)))
                     .ToArray();
-            var song = Enumerable.Range(1, 48)
-                .Select(n => Tuple.Create("Song", @"c:\temp\birds\sparrow_song_{0:00}.jpg".FormatWith(n)))
+            var song = Enumerable.Range(1, 53)
+                .Select(n => Tuple.Create(songText, @"c:\temp\birds\sparrow_song_{0:00}.jpg".FormatWith(n)))
                 .ToArray();
 
             int amount = 53;
@@ -62,7 +67,7 @@ namespace PowerPointGeneration.Tests
         }
 
 
-        private static void AddSparrows(Presentation pptPresentation)
+        private static void AddSparrows(Presentation pptPresentation, Tuple<string, string>[] trainingSet)
         {
             float totalTime = 0;
             using (Logger.MarkEntryPoints())
@@ -74,7 +79,7 @@ namespace PowerPointGeneration.Tests
                 Slides slides = pptPresentation.Slides;
                 int counter = 0;
                 int page = 1;
-                foreach (var sparrow in GetTrainingSet())
+                foreach (var sparrow in trainingSet)
                 {
                     // Question
                     totalTime = AddPicturePage(slides, page, customLayout, sparrow, counter, totalTime);
@@ -174,6 +179,8 @@ namespace PowerPointGeneration.Tests
         {
             return new Timings {{2, 100}, {5, 1.5f}, {12, 1.0f}, {20, 0.75f}, {Int32.MaxValue, 0.5f}}.Get(counter);
         }
+
+       
     }
 
     public static class ArrayUtils
