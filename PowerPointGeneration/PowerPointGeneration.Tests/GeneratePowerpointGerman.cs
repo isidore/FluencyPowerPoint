@@ -54,6 +54,22 @@ namespace PowerPointGeneration.Tests
 
             });
         } 
+
+        [TestMethod]
+        public void CreateSlidesForLeftRight()
+        {
+            Logger.Writer = new ConsoleWriter();
+
+            CodeSmells.Create(new Details()
+            {
+                Name = "LeftRight",
+                GoodName = "Left",
+                BadName = "Right",
+                DirectoryName = "C:\\code\\LeftRightSparrowDeck",
+                Timings = new Timings { { 2, 100 }, { 5, 2 }, { 20, 1.0F }, { Int32.MaxValue, 0.5F } }
+
+            });
+        } 
         
        
         [TestMethod]

@@ -1,0 +1,75 @@
+given a bowling game
+when I roll above a 5
+then I should see a message saying "good job"
+
+future
+
+given a bowling game
+when I roll 10 pin
+then I get 10 + a future score
+
+future
+
+
+given a bowling game 
+when a roll 2 balls totaling ten
+and then I roll a 5
+then I should score 15 for that frame.
+
+future
+
+given a bowling game
+If I roll a strike
+then I should get a bonus of the next two rolls.
+
+future
+
+given a bowling game
+when I roll a 1 20 times
+then should have a score of 20
+
+past
+
+given a bowling game
+when I roll a 5 21 times
+then should have a score of 150
+
+past
+
+given a bowling game
+when I roll a 10 12 times
+then should have a score of 300
+
+past
+
+given a bowling game
+when I roll  a 10 12 times
+then should have a score of 300
+
+past
+
+
+given a bowling game
+when I roll an 11
+then I get an error of "Illegal roll"
+
+past
+
+
+given a bowling game
+when I roll an 9 and a 9
+then I get an error of "Invalid remain pins"
+
+past
+
+given a bowling game
+when I roll an 1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4
+then I get a score of 50
+
+past
+
+given a bowling game
+when I roll a negative number
+then I get an error of "Illegal roll"
+
+past
