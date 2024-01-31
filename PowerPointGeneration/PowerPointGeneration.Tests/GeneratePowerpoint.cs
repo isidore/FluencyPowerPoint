@@ -44,6 +44,18 @@ namespace PowerPointGeneration.Tests
                 BadName = "Too Long",
                 FontSize = 90
             });
+        }        
+        
+        [TestMethod]
+        public void CreateSlidesForDeepNesting()
+        {
+            CodeSmells.Create(new Details()
+            {
+                Name = "DeepNesting",
+                GoodName = "Flat",
+                BadName = "Nested",
+                FontSize = 90
+            });
         }
 
         [TestMethod]
